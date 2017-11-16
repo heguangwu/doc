@@ -158,7 +158,7 @@ class LogicCompare extends JavaTokenParsers {
 
 到此为止，parser combinator介绍基本涵盖，如有补充或疑问，请联系 heguangwu@163.com
 
-作者 [贺广武](heguangwu@163.com)     
+作者 贺广武   
 
 参考资料：
 
