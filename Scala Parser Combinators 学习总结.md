@@ -162,6 +162,7 @@ class LogicCompare extends JavaTokenParsers {
 
 参考资料：
 [1]: Programming in Scala, Third Edition, Martin Odersky, Lex Spoon, Bill Venners
+
 [2]: [Building a lexer and parser with Scala's Parser Combinators][1], Pedro Palma Ramos
 
 
