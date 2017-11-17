@@ -189,15 +189,25 @@ class LogicCompare extends JavaTokenParsers {
 这里解释一下代码中新出现的函数和符号：
 > * opt 可选分解器，等同于BNF的中括号
 > * 星号：*，是Parsers的一个函数，定义为：def * = rep(this)
-> * ^^^  结果值替换，按照该函数说明的注释：p ^^^ v，在p成功的情况下，返回v。更详细的解释参见[这里](https://stackoverflow.com/questions/21259470/when-to-use-scala-triple-caret-vs-double-caret-and-the-into-method)，如果不想跳转或链接失效，直接看下面的简单概括
-
+> * ^^^  结果值替换，按照该函数说明的注释：p ^^^ v，在p成功的情况下，返回v。更详细的解释参见[这里](https://stackoverflow.com/questions/21259470/when-to-use-scala-triple-caret-vs-double-caret-and-the-into-method)，如果不想跳转或链接失效，直接看下面的简单概括。
 
 (parser ^^ transformation) == parser.map(transformation)
-
 (parser ^^^ replacement) == parser.map(_ => replacement)
-
 (parser >> nextStep) == parser.flatMap(nextStep)
 
+对上面的一个示范代码：
+```scala
+object MyParser extends RegexParsers {
+  def parseIntString(s: String) = try success(s.toInt) catch {
+    case t: Throwable => err(t.getMessage)
+  }
+
+  val digits: Parser[String] = """\d+""".r
+  val numberOfDigits: Parser[Int] = digits ^^ (_.length)
+  val ifDigitsMessage: Parser[String] = digits ^^^ "Has a value!"
+  val integer: Parser[Int] = digits >> parseIntString
+}
+```
 
 到此为止，parser combinator介绍基本涵盖，如有补充或疑问，请联系 heguangwu@163.com
 
