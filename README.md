@@ -6,4 +6,4 @@
 
 ## Scala学习
 
-### [Scala Parser Combinators 学习总结](https://github.com/heguangwu/doc/blob/master/Scala%20Parser%20Combinators%20%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93.md	)
+1. [**Scala Parser Combinators 学习总结**](https://github.com/heguangwu/doc/blob/master/Scala%20Parser%20Combinators%20%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93.md	)
