@@ -67,7 +67,7 @@ class Calculator extends JavaTokenParsers {
 > * ~ 连接词，用于连接两个token，实际上是一个case类，定义：case class ~[+a, +b](_1: a, _2: b)
 > * | 或操作，和BNF中的|等同
 > * rep 用于替换BNF中的大括号，该函数返回Parser[List]，此外还有一个rep1，和rep的区别是：rep表示0或多个，而rep1是一或多个
-> * ^^ 转换parser的结果，即^^后面的函数处理parser解析的值
+> * ^^ 转换parser的结果，即^^后面的函数处理parser解析的值，可以理解为map函数
 > * <~ 提取器，因为 '\~' 会出现在字面量中，需要进一步case匹配对应的 '\~' ，为提取更快捷，提供'\~>'用于提取右边的结果、'<\~'提取其左边的结果，一般配对使用
 
 此外，floatingPointNumber是一个正则表达式解析函数，具体可以查看JavaTokenParsers中的定义。
@@ -219,4 +219,4 @@ object MyParser extends RegexParsers {
 
 [1]: Programming in Scala, Third Edition, Martin Odersky, Lex Spoon, Bill Venners
 
-[2]: [Building a lexer and parser with Scala's Parser Combinators][1], Pedro Palma Ramos, http://enear.github.io/2016/03/31/parser-combinators/
+[2]: Building a lexer and parser with Scala's Parser Combinators, Pedro Palma Ramos, http://enear.github.io/2016/03/31/parser-combinators/
