@@ -68,7 +68,7 @@ class Calculator extends JavaTokenParsers {
 > * | 或操作，和BNF中的|等同
 > * rep 用于替换BNF中的大括号，该函数返回Parser[List]，此外还有一个rep1，和rep的区别是：rep表示0或多个，而rep1是一或多个
 > * ^^ 转换parser的结果，即^^后面的函数处理parser解析的值
-> * <~ 提取器，因为“~”会出现在字面量中，需要进一步case匹配对应的“~”，为提取更快捷，提供~>用于提取右边的结果、<~提取其左边的结果，一般配对使用
+> * <~ 提取器，因为 '~' 会出现在字面量中，需要进一步case匹配对应的 '~' ，为提取更快捷，提供'~>'用于提取右边的结果、'<~'提取其左边的结果，一般配对使用
 
 此外，floatingPointNumber是一个正则表达式解析函数，具体可以查看JavaTokenParsers中的定义。
 
@@ -107,13 +107,47 @@ class JsonParser extends JavaTokenParsers{
 
 该解析器类似SQL中的where从句，如 a > 0 and a < 50 or b = 3，该示范仅仅解析为语法树，并不涉及计算，BNF如下：
 ```bnf
-expr ::= [node]
-node ::= expr
-expr ::= compareExpr {"or" compareExpr |"and" compareExpr}
-compareExpr ::= literal (">"|"<"|"=") literal
+node ::= [expr]
+expr ::= orExpr
+orExpr ::= andExpr {"or" orExpr}
+andExpr ::= compareExpr {"and" compareExpr}
+compareExpr ::= literal (">"|"<"|"=") literal | "(" expr ")"
+```
+如果按之前的方式实现，scala代码如下：
+```scala
+class LogicCompare extends JavaTokenParsers {
+  def node:Parser[Node] = opt(expr) ^^ {
+    case Some(r) => r
+    case None => Empty
+  }
+
+  def expr: Parser[Node] = orExpr
+
+  def orExpr: Parser[Node] = andExpr ~ rep("or" ~> orExpr) ^^ {
+    case a ~ r => r.foldLeft(a) {
+      (x, y) => OR(x,y)
+    }
+  }
+  def andExpr: Parser[Node] = compareExpr ~ rep("and" ~> compareExpr) ^^ {
+    case a ~ r => r.foldLeft(a) {
+      (x, y) => AND(x, y)
+    }
+  }
+  def compareExpr: Parser[Node] = {
+    literal ~ ("=" | "<" | ">" ) ~ literal ^^ {
+      case lhs ~ "=" ~ rhs => EQ(lhs, rhs)
+      case lhs ~ "<" ~ rhs => LT(lhs, rhs)
+      case lhs ~ ">" ~ rhs => GT(lhs, rhs)
+    } | "(" ~> expr <~ ")"
+  }
+  def literal: Parser[Node] = floatingPointNumber ^^ (i => Literal(i.toInt)) |
+    stringLiteral ^^ (i => StrLiteral(i.toString))
+
+  def parse(str: java.lang.CharSequence) = super.parseAll(node, str)
+}
 ```
 
-scala代码如下：
+如果使用其它更高级的函数，scala代码如下：
 ```scala
 trait Node
 case class OR(lhs: Node, rhs: Node) extends Node
