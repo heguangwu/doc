@@ -115,6 +115,20 @@ compareExpr ::= literal (">"|"<"|"=") literal | "(" expr ")"
 ```
 如果按之前的方式实现，scala代码如下：
 ```scala
+//数据结构定义如下
+trait Node
+case class OR(lhs: Node, rhs: Node) extends Node
+case class AND(lhs: Node, rhs: Node) extends Node
+
+case class EQ(lhs: Node, rhs: Node) extends Node
+case class GT(lhs: Node, rhs: Node) extends Node
+case class LT(lhs: Node, rhs: Node) extends Node
+
+case class Literal(value: Int) extends Node
+case class StrLiteral(value: String) extends Node
+
+case object Empty extends Node
+
 class LogicCompare extends JavaTokenParsers {
   def node:Parser[Node] = opt(expr) ^^ {
     case Some(r) => r
@@ -149,19 +163,6 @@ class LogicCompare extends JavaTokenParsers {
 
 如果使用其它更高级的函数，scala代码如下：
 ```scala
-trait Node
-case class OR(lhs: Node, rhs: Node) extends Node
-case class AND(lhs: Node, rhs: Node) extends Node
-
-case class EQ(lhs: Node, rhs: Node) extends Node
-case class GT(lhs: Node, rhs: Node) extends Node
-case class LT(lhs: Node, rhs: Node) extends Node
-
-case class Literal(value: Int) extends Node
-case class StrLiteral(value: String) extends Node
-
-case object Empty extends Node
-
 class LogicCompare extends JavaTokenParsers {
   def node:Parser[Node] = opt(orExpr) ^^ {
     case Some(r) => r
@@ -188,11 +189,11 @@ class LogicCompare extends JavaTokenParsers {
 这里解释一下代码中新出现的函数和符号：
 > * opt 可选分解器，等同于BNF的中括号
 > * 星号：*，是Parsers的一个函数，定义为：def * = rep(this)
-> * ^^^  结果值替换，如该函数说明的注释p ^^^ v，在p成功的情况下，返回v，还有点小疑问，待后续有时间再补充分析
+> * ^^^  结果值替换，按照该函数说明的注释：p ^^^ v，在p成功的情况下，返回v。这个函数还有点小疑问没弄清楚，待后续有时间再补充分析
 
 到此为止，parser combinator介绍基本涵盖，如有补充或疑问，请联系 heguangwu@163.com
 
-作者 贺广武   
+作者：贺广武   
 
 参考资料：
 
