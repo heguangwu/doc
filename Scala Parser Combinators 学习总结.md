@@ -189,9 +189,13 @@ class LogicCompare extends JavaTokenParsers {
 这里解释一下代码中新出现的函数和符号：
 > * opt 可选分解器，等同于BNF的中括号
 > * 星号：*，是Parsers的一个函数，定义为：def * = rep(this)
-> * ^^^  结果值替换，按照该函数说明的注释：p ^^^ v，在p成功的情况下，返回v。更详细的解释参见[这里](https://stackoverflow.com/questions/21259470/when-to-use-scala-triple-caret-vs-double-caret-and-the-into-method)，如果不想跳转或链接失效，直接看下面的简单概括：
+> * ^^^  结果值替换，按照该函数说明的注释：p ^^^ v，在p成功的情况下，返回v。更详细的解释参见[这里](https://stackoverflow.com/questions/21259470/when-to-use-scala-triple-caret-vs-double-caret-and-the-into-method)，如果不想跳转或链接失效，直接看下面的简单概括
+
+
 (parser ^^ transformation) == parser.map(transformation)
+
 (parser ^^^ replacement) == parser.map(_ => replacement)
+
 (parser >> nextStep) == parser.flatMap(nextStep)
 
 
