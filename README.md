@@ -11,6 +11,9 @@
 ## 其它学习
 1. [**Git概念及使用**](https://github.com/heguangwu/doc/blob/master/Git%E6%A6%82%E5%BF%B5%E5%8D%B3%E4%BD%BF%E7%94%A8.md)
 
+## 读书心得
+1. [**高效能程序员的修炼读书心得**](https://github.com/heguangwu/doc/blob/master/%E9%AB%98%E6%95%88%E8%83%BD%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E4%BF%AE%E7%82%BC%E8%AF%BB%E4%B9%A6%E5%BF%83%E5%BE%97.md)
+
 ## 计划及总结
 
 1. [**2018年计划**](https://github.com/heguangwu/doc/blob/master/2018%E5%B9%B4%E8%AE%A1%E5%88%92.md)
